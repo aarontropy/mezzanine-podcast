@@ -7,8 +7,8 @@ from django.template import RequestContext
 
 from mezzanine.conf import settings
 from mezzanine.pages.models import RichTextPage
-from mezzanine.template.loader import select_template
 
+from template.loader import select_template
 from models import Podcast
 
 def podcast_page():

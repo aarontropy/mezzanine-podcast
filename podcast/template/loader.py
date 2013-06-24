@@ -8,6 +8,10 @@ which is used to handle device specific template loading.
 from django.template import TemplateDoesNotExist
 from django.template.loader import select_template as _select_template
 
+try:
+    DEFAULT_DEVICE = settings.DEFAULT_DEVICE
+except:
+    DEFAULT_DEVICE = None
 
 def get_template(template_name, context_instance):
     """
@@ -18,7 +22,7 @@ def get_template(template_name, context_instance):
     """
     from mezzanine.conf import settings
     template_name_list = [template_name]
-    if settings.DEFAULT_DEVICE:
+    if DEFAULT_DEVICE:
         default = "%s/%s" % (settings.DEFAULT_DEVICE, template_name)
         template_name_list.insert(0, default)
     try:
@@ -26,8 +30,8 @@ def get_template(template_name, context_instance):
     except KeyError:
         pass
     else:
-        for (device, ua_strings) in settings.DEVICE_USER_AGENTS:
-            if device != settings.DEFAULT_DEVICE:
+        for (device, ua_strings) in DEVICE_USER_AGENTS:
+            if device != DEFAULT_DEVICE:
                 for ua_string in ua_strings:
                     if ua_string in user_agent:
                         path = "%s/%s" % (device, template_name)
